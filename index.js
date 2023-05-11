@@ -42,6 +42,19 @@ app.post('/books', async (req, resp) => {
   resp.send(bookResp);
 });
 
+app.put('/books/:id', async (req, resp) => {
+  const newData = await Book.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
+
+  resp.send(newData);
+});
+
+app.delete('/books/:id', async (req, resp) => {
+  await Book.findOneAndRemove({ _id: req.params.id });
+
+  resp.status(204);
+  resp.send();
+});
+
 app.listen(port, () => {
   console.log(`Server http://localhost:${port} started`);
 });
